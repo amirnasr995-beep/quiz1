@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GR4 TR2 – Unit 1 – Bit by Bit – Lesson 1&2 Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    html { font-size: 19px; }
+    :root {
+      --bg-top: #bfdbfe;
+      --bg-bottom: #fde68a;
+      --card-bg: #f3f4f6;
+      --card-border: #9ca3af;
+      --accent: #ea580c;
+      --accent-strong: #c2410c;
+      --text-main: #111827;
+      --muted: #4b5563;
+      --progress-bg: #c7d2fe;
+      --progress-dot-active: #22c55e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, var(--bg-top), var(--bg-bottom));
+      color: var(--text-main);
+      padding: 16px 8px 32px;
+      display: flex;
+      justify-content: center;
+    }
+    .quiz-wrapper { width: 100%; max-width: 900px; }
+    .hidden { display: none; }
+
+    .header-card {
+      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      border-radius: 24px;
+      padding: 20px 20px 24px;
+      text-align: center;
+      color: #e5e7eb;
+      margin-bottom: 16px;
+      border: 2px solid #1d4ed8;
+      box-shadow: 0 10px 18px rgba(15, 23, 42, 0.2);
+    }
+    .header-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #f9fafb;
+      margin-bottom: 8px;
+    }
+    .header-subtitle { font-size: 1.05rem; font-weight: 700; }
+    .header-subtitle + .header-subtitle { margin-top: 2px; }
+
+    .name-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    @media (min-width: 600px) {
+      .name-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .field-label {
+      text-align: left;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #e5e7eb;
+    }
+    .name-input {
+      width: 100%;
+      padding: 9px 13px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      font-size: 0.95rem;
+      outline: none;
+      background: #e5e7eb;
+      color: #111827;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+    .name-input:focus {
+      border-color: #facc15;
+      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.5);
+      background: #ffffff;
+    }
+
+    .start-row { margin-top: 16px; display: flex; justify-content: center; }
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 24px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #111827;
+      text-align: center;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-primary {
+      background: linear-gradient(135deg, #facc15, #f97316);
+      color: #111827;
+      box-shadow: 0 8px 14px rgba(15, 23, 42, 0.3);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #fbbf24, #ea580c);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 18px rgba(15, 23, 42, 0.4);
+    }
+    .btn-finish {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #f9fafb;
+      padding-inline: 30px;
+      margin-top: 18px;
+      box-shadow: 0 8px 14px rgba(22, 163, 74, 0.4);
+    }
+    .btn-finish:hover:not(:disabled) {
+      background: linear-gradient(135deg, #15803d, #166534);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 18px rgba(22, 163, 74, 0.5);
+    }
+    .btn-reset {
+      background: #e5e7eb;
+      border-radius: 999px;
+      border: 1px solid #9ca3af;
+      color: #111827;
+      padding: 5px 12px;
+      font-size: 0.85rem;
+    }
+    .btn-reset:hover { background: #d1d5db; }
+    .btn-whatsapp {
+      background: linear-gradient(90deg, #22c55e, #16a34a);
+      color: #ecfdf5;
+      font-size: 0.95rem;
+      padding-block: 10px;
+      padding-inline: 22px;
+      border-radius: 999px;
+      margin-top: 10px;
+      box-shadow: 0 8px 14px rgba(22, 163, 74, 0.35);
+    }
+    .btn-whatsapp:hover { transform: translateY(-1px); }
+
+    .start-warning {
+      margin-top: 10px;
+      color: #fbbf24;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: block;
+    }
+
+    .progress-card {
+      background: var(--progress-bg);
+      border-radius: 22px;
+      padding: 12px 14px 16px;
+      margin-bottom: 14px;
+      border: 2px solid #4f46e5;
+      box-shadow: 0 8px 14px rgba(55, 65, 81, 0.35);
+    }
+    .progress-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-align: center;
+      margin-bottom: 6px;
+      color: #111827;
+    }
+    .progress-dots {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+    .progress-dot {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #f9fafb;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s, box-shadow 0.15s, border 0.15s;
+      border: 2px solid #000;
+    }
+    .progress-dot:hover { transform: translateY(-1px); box-shadow: 0 4px 8px rgba(55,65,81,0.5); }
+    .progress-dot.answered { background: var(--progress-dot-active); color: #052e16; border-color: var(--progress-dot-active); }
+    .progress-dot.current { box-shadow: 0 0 0 3px rgba(249,115,22,0.6); }
+
+    .quiz-body { margin-top: 8px; }
+    .section-title { font-size: 1.3rem; font-weight: 800; margin: 8px 4px 4px; color: #111827; }
+    .section-sub { font-size: 0.98rem; color: var(--muted); margin: 0 4px 8px; }
+
+    .question-card {
+      background: var(--card-bg);
+      border-radius: 22px;
+      padding: 12px 14px 14px;
+      margin-bottom: 12px;
+      border: 2px solid var(--card-border);
+      box-shadow: 0 6px 10px rgba(55,65,81,0.35);
+      position: relative;
+    }
+    .question-card::before {
+      content: attr(data-q-label);
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg,#4f46e5,#4338ca);
+      color: #f9fafb;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .question-progress { margin-top: 6px; margin-bottom: 6px; }
+    .question-progress .progress-dots { justify-content: center; gap: 4px; flex-wrap: wrap; }
+    .question-progress .progress-dot { width: 22px; height: 22px; font-size: 0.75rem; }
+
+    .question-text {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-top: 6px;
+      margin-bottom: 6px;
+      line-height: 1.4;
+      color: #111827;
+      white-space: normal;
+    }
+    .q-number { color: var(--accent-strong); font-weight: 800; margin-right: 6px; }
+
+    /* Fill-in */
+    .fill-text { font-size: 1.05rem; line-height: 1.7; margin-top: 4px; }
+    .blank-slot {
+      display: inline-block;
+      min-width: 84px;
+      padding: 3px 10px;
+      margin: 0 2px;
+      border-radius: 12px;
+      border: 2px dashed #9ca3af;
+      background: #fefce8;
+      cursor: pointer;
+      font-weight: 700;
+      text-align: center;
+    }
+    .blank-slot.active {
+      border-color: #f97316;
+      background: #fffbeb;
+      box-shadow: 0 0 0 2px rgba(249,115,22,0.4);
+    }
+    .blank-slot.filled { border-style: solid; background: #e0f2fe; }
+
+    .word-bank { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
+    .word-btn {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid #9ca3af;
+      background: #e0e7ff;
+      color: #111827;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 700;
+      transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+      user-select: none;
+    }
+    .word-btn:hover:not(:disabled) { background: #c7d2fe; transform: translateY(-1px); box-shadow: 0 4px 8px rgba(55,65,81,0.5); }
+    .word-btn:disabled { opacity: 0.5; cursor: default; box-shadow: none; }
+    .fill-bank .word-btn { background: #dbeafe; }
+    .fill-bank .word-btn:hover:not(:disabled) { background: #bfdbfe; }
+
+    /* ✅ Favorite MCQ style */
+    .mcq-options { display: grid; gap: 10px; margin-top: 10px; }
+    .mcq-option {
+      width: 100%;
+      border: 2px solid #9ca3af;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 10px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 6px 10px rgba(55,65,81,0.15);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+      text-align: left;
+    }
+    .mcq-option:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 16px rgba(55,65,81,0.22);
+      border-color: #6b7280;
+    }
+    .mcq-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+    .mcq-radio {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 2px solid #9ca3af;
+      background: #fff;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+    .mcq-radio::after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: transparent;
+      display: block;
+    }
+    .mcq-label {
+      font-weight: 800;
+      color: #111827;
+      flex: 0 0 auto;
+      width: 26px;
+      text-transform: lowercase;
+      font-size: 1.05rem;
+    }
+    .mcq-text {
+      font-weight: 800;
+      color: #111827;
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+      line-height: 1.25;
+      font-size: 1.05rem;
+    }
+    .mcq-option.selected {
+      border-color: #f97316;
+      background: #fffbeb;
+      box-shadow: 0 10px 16px rgba(249,115,22,0.25);
+    }
+    .mcq-option.selected .mcq-radio { border-color: #f97316; }
+    .mcq-option.selected .mcq-radio::after { background: #f97316; }
+
+    .finish-row { display: flex; justify-content: center; margin-top: 8px; }
+    .unanswered-message {
+      margin-top: 8px;
+      text-align: center;
+      color: #b91c1c;
+      font-weight: 700;
+      display: none;
+      font-size: 0.95rem;
+    }
+
+    .result-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 40;
+    }
+    .result-overlay.show { display: flex; }
+    .result-card {
+      background: #f9fafb;
+      color: #111827;
+      border-radius: 24px;
+      padding: 18px 16px 16px;
+      max-width: 460px;
+      width: 100%;
+      text-align: center;
+      border: 3px solid #2563eb;
+      box-shadow: 0 16px 28px rgba(15,23,42,0.6);
+    }
+    .result-line { font-size: 1.1rem; margin-bottom: 5px; }
+    .result-line strong { font-weight: 800; }
+    .feedback-text {
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin-top: 8px;
+      margin-bottom: 5px;
+      color: #16a34a;
+    }
+    .incorrect-list { margin-top: 5px; font-size: 0.95rem; color: #b91c1c; }
+
+    .leave-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 50;
+    }
+    .leave-box {
+      background: #f9fafb;
+      border-radius: 20px;
+      padding: 18px 18px 14px;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 14px 24px rgba(15,23,42,0.6);
+    }
+    .leave-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 8px; }
+    .leave-buttons { margin-top: 10px; display: flex; justify-content: center; gap: 10px; }
+
+    @media (max-width: 600px) {
+      body { padding: 12px 6px 24px; }
+      .header-title { font-size: 1.8rem; }
+      .question-text { font-size: 1.1rem; }
+      .result-card { max-width: 95%; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="quiz-wrapper">
+
+    <section class="header-card">
+      <h1 class="header-title">Mr. Amir Radwan</h1>
+      <div class="header-subtitle">GR4 TR2 - UNIT 1</div>
+      <div class="header-subtitle">Bit by bit - lesson 1&2</div>
+
+      <div class="name-grid">
+        <label>
+          <div class="field-label">Student name (first):</div>
+          <input id="student-first" class="name-input" type="text" placeholder="e.g. Ahmed">
+        </label>
+        <label>
+          <div class="field-label">Father name:</div>
+          <input id="student-father" class="name-input" type="text" placeholder="e.g. Mohamed">
+        </label>
+        <label>
+          <div class="field-label">Family name:</div>
+          <input id="student-family" class="name-input" type="text" placeholder="e.g. Radwan">
+        </label>
+      </div>
+
+      <div class="start-row">
+        <button id="start-btn" class="btn btn-primary" disabled>✅ Start Quiz</button>
+      </div>
+      <div id="start-warning" class="start-warning">
+        Type your full name to start the quiz 😊
+      </div>
+    </section>
+
+    <section id="progress-card" class="progress-card hidden">
+      <div class="progress-title">Question progress:</div>
+      <div id="progress-dots" class="progress-dots"></div>
+    </section>
+
+    <section id="quiz-body" class="quiz-body hidden">
+
+      <div class="section-title">A) Read and complete the text</div>
+      <div class="section-sub">Click a blank, then click a word from the box to fill it.</div>
+
+      <!-- Text A -->
+      <article class="question-card" data-q-label="Text A (Questions 1–4)">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+
+        <div class="question-text">
+          <span class="q-number">Q1–4</span> Read and complete with the words below.
+        </div>
+
+        <div class="reorder-instruction"><strong>Word box:</strong> special – desert – village – buildings – work</div>
+        <div class="word-bank fill-bank">
+          <button type="button" class="word-btn" data-word="special">special</button>
+          <button type="button" class="word-btn" data-word="desert">desert</button>
+          <button type="button" class="word-btn" data-word="village">village</button>
+          <button type="button" class="word-btn" data-word="buildings">buildings</button>
+          <button type="button" class="word-btn" data-word="work">work</button>
+        </div>
+
+        <p class="fill-text">
+          Last week, our teacher asked us to do a project about different places. I learned about life in the city
+          and life in the (1)
+          <button type="button" class="blank-slot" data-question="1">______</button>.
+          People in the city live in tall (2)
+          <button type="button" class="blank-slot" data-question="2">______</button>
+          and use cars and buses. In the (3)
+          <button type="button" class="blank-slot" data-question="3">______</button>,
+          people live in tents, travel on camels, and use wells for water. Every place is (4)
+          <button type="button" class="blank-slot" data-question="4">______</button>
+          and has advantages and challenges.
+        </p>
+
+        <input type="hidden" name="q1"><input type="hidden" name="q2"><input type="hidden" name="q3"><input type="hidden" name="q4">
+      </article>
+
+      <!-- Text B -->
+      <article class="question-card" data-q-label="Text B (Questions 5–8)">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+
+        <div class="question-text">
+          <span class="q-number">Q5–8</span> Read and complete with the words below.
+        </div>
+
+        <div class="reorder-instruction"><strong>Word box:</strong> village – river – flowers – fresh – learned</div>
+        <div class="word-bank fill-bank">
+          <button type="button" class="word-btn" data-word="village">village</button>
+          <button type="button" class="word-btn" data-word="river">river</button>
+          <button type="button" class="word-btn" data-word="flowers">flowers</button>
+          <button type="button" class="word-btn" data-word="fresh">fresh</button>
+          <button type="button" class="word-btn" data-word="learned">learned</button>
+        </div>
+
+        <p class="fill-text">
+          Last weekend, Ahmed and Omar visited a small market near the city. They walked beside the (5)
+          <button type="button" class="blank-slot" data-question="5">______</button>
+          and noticed the clean air. Ahmed smelled the colorful (6)
+          <button type="button" class="blank-slot" data-question="6">______</button>
+          beside the path. In the afternoon, they went to the (7)
+          <button type="button" class="blank-slot" data-question="7">______</button>
+          and bought (8)
+          <button type="button" class="blank-slot" data-question="8">______</button>
+          fruit.
+        </p>
+
+        <input type="hidden" name="q5"><input type="hidden" name="q6"><input type="hidden" name="q7"><input type="hidden" name="q8">
+      </article>
+
+      <div class="section-title">B) Choose the correct answer (a, b, c or d)</div>
+      <div class="section-sub">Choose the correct answer.</div>
+
+      <!-- Q9 -->
+      <article class="question-card" data-q-label="Question 9">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q9</span> The ________ is everything around us, like air, water, land, and animals.</div>
+        <div class="mcq-options" data-question="9">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">project</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">village</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">environment</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">desert</div></div></button>
+        </div>
+        <input type="hidden" name="q9">
+      </article>
+
+      <!-- Q10 -->
+      <article class="question-card" data-q-label="Question 10">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q10</span> A tall ________ can have many floors where people live or work.</div>
+        <div class="mcq-options" data-question="10">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">tent</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">building</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">camel</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">river</div></div></button>
+        </div>
+        <input type="hidden" name="q10">
+      </article>
+
+      <!-- Q11 -->
+      <article class="question-card" data-q-label="Question 11">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q11</span> A ________ is a big place with many people, cars, and tall buildings.</div>
+        <div class="mcq-options" data-question="11">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">farm</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">oasis</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">village</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">city</div></div></button>
+        </div>
+        <input type="hidden" name="q11">
+      </article>
+
+      <!-- Q12 -->
+      <article class="question-card" data-q-label="Question 12">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q12</span> A ________ is a small place where people live together.</div>
+        <div class="mcq-options" data-question="12">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">well</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">village</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">city</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">desert</div></div></button>
+        </div>
+        <input type="hidden" name="q12">
+      </article>
+
+      <!-- Q13 -->
+      <article class="question-card" data-q-label="Question 13">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q13</span> In the desert, we can find a/an ________ with water, plants, and trees.</div>
+        <div class="mcq-options" data-question="13">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">road</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">building</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">oasis</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">shop</div></div></button>
+        </div>
+        <input type="hidden" name="q13">
+      </article>
+
+      <!-- Q14 -->
+      <article class="question-card" data-q-label="Question 14">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q14</span> The Nile ________ flows through Egypt.</div>
+        <div class="mcq-options" data-question="14">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">park</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">city</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">river</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">mountain</div></div></button>
+        </div>
+        <input type="hidden" name="q14">
+      </article>
+
+      <!-- Q15 -->
+      <article class="question-card" data-q-label="Question 15">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q15</span> People in the ________ travel on camels and live in tents.</div>
+        <div class="mcq-options" data-question="15">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">river</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">desert</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">city</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">village</div></div></button>
+        </div>
+        <input type="hidden" name="q15">
+      </article>
+
+      <!-- Q16 -->
+      <article class="question-card" data-q-label="Question 16">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q16</span> People in the desert get water from a ________.</div>
+        <div class="mcq-options" data-question="16">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">school</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">well</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">shop</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">building</div></div></button>
+        </div>
+        <input type="hidden" name="q16">
+      </article>
+
+      <!-- Q17 -->
+      <article class="question-card" data-q-label="Question 17">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q17</span> People in the city face some ________ like traffic and noise.</div>
+        <div class="mcq-options" data-question="17">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">tents</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">buildings</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">rivers</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">challenges</div></div></button>
+        </div>
+        <input type="hidden" name="q17">
+      </article>
+
+      <!-- Q18 -->
+      <article class="question-card" data-q-label="Question 18">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q18</span> Our teacher asked us to do a ________ last week.</div>
+        <div class="mcq-options" data-question="18">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">letter</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">project</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">story</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">game</div></div></button>
+        </div>
+        <input type="hidden" name="q18">
+      </article>
+
+      <!-- Q19 -->
+      <article class="question-card" data-q-label="Question 19">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q19</span> People in the desert live in a ________.</div>
+        <div class="mcq-options" data-question="19">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">car</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">tent</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">building</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">shop</div></div></button>
+        </div>
+        <input type="hidden" name="q19">
+      </article>
+
+      <!-- Q20 -->
+      <article class="question-card" data-q-label="Question 20">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q20</span> A ________ is a large flow of water across the land.</div>
+        <div class="mcq-options" data-question="20">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">village</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">river</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">forest</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">street</div></div></button>
+        </div>
+        <input type="hidden" name="q20">
+      </article>
+
+      <!-- Q21 -->
+      <article class="question-card" data-q-label="Question 21">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q21</span> A ________ has many trees and animals.</div>
+        <div class="mcq-options" data-question="21">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">forest</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">school</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">river</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">shop</div></div></button>
+        </div>
+        <input type="hidden" name="q21">
+      </article>
+
+      <!-- Q22 -->
+      <article class="question-card" data-q-label="Question 22">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q22</span> They ________ in the forest last week.</div>
+        <div class="mcq-options" data-question="22">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">walked</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">walk</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">walks</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">walking</div></div></button>
+        </div>
+        <input type="hidden" name="q22">
+      </article>
+
+      <!-- Q23 -->
+      <article class="question-card" data-q-label="Question 23">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q23</span> My friend and I ________ the river yesterday.</div>
+        <div class="mcq-options" data-question="23">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">visit</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">visited</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">visits</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">visiting</div></div></button>
+        </div>
+        <input type="hidden" name="q23">
+      </article>
+
+      <!-- Q24 -->
+      <article class="question-card" data-q-label="Question 24">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q24</span> She ________ her friend a week ago.</div>
+        <div class="mcq-options" data-question="24">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">helped</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">help</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">helping</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">helps</div></div></button>
+        </div>
+        <input type="hidden" name="q24">
+      </article>
+
+      <!-- Q25 -->
+      <article class="question-card" data-q-label="Question 25">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q25</span> I ________ the sunrise last Friday.</div>
+        <div class="mcq-options" data-question="25">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">watched</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">watch</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">watches</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">watching</div></div></button>
+        </div>
+        <input type="hidden" name="q25">
+      </article>
+
+      <!-- Q26 -->
+      <article class="question-card" data-q-label="Question 26">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q26</span> He ________ fruits from the market last weekend.</div>
+        <div class="mcq-options" data-question="26">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">buy</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">bought</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">buying</div></div></button>
+          <button type="button" class="mcq-option" data-value="d"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">d</div><div class="mcq-text">buys</div></div></button>
+        </div>
+        <input type="hidden" name="q26">
+      </article>
+
+      <div class="section-title">C) Punctuation MCQ (a, b, c)</div>
+      <div class="section-sub">Choose the correct punctuation.</div>
+
+      <!-- Q27 -->
+      <article class="question-card" data-q-label="Question 27">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q27</span> Choose the correct punctuation:</div>
+        <div class="mcq-options" data-question="27">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">The weather was sunny.</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">the weather was sunny.</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">The weather was sunny?</div></div></button>
+        </div>
+        <input type="hidden" name="q27">
+      </article>
+
+      <!-- Q28 -->
+      <article class="question-card" data-q-label="Question 28">
+        <div class="question-progress"><div class="progress-dots q-progress-dots"></div></div>
+        <div class="question-text"><span class="q-number">Q28</span> Choose the correct punctuation:</div>
+        <div class="mcq-options" data-question="28">
+          <button type="button" class="mcq-option" data-value="a"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">a</div><div class="mcq-text">What did the farmer tell them about?</div></div></button>
+          <button type="button" class="mcq-option" data-value="b"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">b</div><div class="mcq-text">what did the farmer tell them about.</div></div></button>
+          <button type="button" class="mcq-option" data-value="c"><div class="mcq-left"><div class="mcq-radio"></div><div class="mcq-label">c</div><div class="mcq-text">What did the farmer tell them about.</div></div></button>
+        </div>
+        <input type="hidden" name="q28">
+      </article>
+
+      <div class="finish-row">
+        <button id="finish-btn" class="btn btn-finish">🏁 Finish Quiz</button>
+      </div>
+      <div id="unanswered-msg" class="unanswered-message">
+        You must answer <strong>all the questions</strong> before finishing.
+      </div>
+    </section>
+  </div>
+
+  <div id="result-overlay" class="result-overlay">
+    <div class="result-card">
+      <div id="score-line" class="result-line"></div>
+      <div id="percent-line" class="result-line"></div>
+      <div id="incorrect-line" class="incorrect-list"></div>
+      <div id="feedback-line" class="feedback-text"></div>
+
+      <button id="whatsapp-btn" class="btn btn-whatsapp" type="button" style="display:none;">
+        ✉️ Send Your Result via WhatsApp
+      </button>
+
+      <button id="close-result" class="btn btn-reset" type="button" style="margin-top:12px; display:none;">
+        Close and review incorrect answers
+      </button>
+    </div>
+  </div>
+
+  <div id="leave-overlay" class="leave-overlay">
+    <div class="leave-box">
+      <div class="leave-title">Do you want to leave?</div>
+      <p>If you leave this page, your answers may be lost.</p>
+      <div class="leave-buttons">
+        <button id="leave-yes" class="btn btn-reset">Yes</button>
+        <button id="leave-no" class="btn btn-primary">No</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TOTAL_QUESTIONS = 28;
+
+    // ✅ UPDATED GOOGLE SHEETS APPS SCRIPT URL
+    const SHEET_URL =
+      "https://script.google.com/macros/s/AKfycbzrgfxzpZBd3emxQY71gT6Li6PqIW9VJC7S4YXr8Y9wlTud1drX9JjEMdB59Ex5Jv9k/exec";
+
+    // ✅ Correct answers (Fill-in 1-8)
+    const correctFill = {
+      q1: "village",
+      q2: "buildings",
+      q3: "desert",
+      q4: "special",
+      q5: "river",
+      q6: "flowers",
+      q7: "village",
+      q8: "fresh"
+    };
+
+    // ✅ Correct answers (MCQ 9-28) - values are a/b/c/d (or a/b/c)
+    const correctMCQ = {
+      q9: "c",
+      q10: "b",
+      q11: "d",
+      q12: "b",
+      q13: "c",
+      q14: "c",
+      q15: "b",
+      q16: "b",
+      q17: "d",
+      q18: "b",
+      q19: "b",
+      q20: "b",
+      q21: "a",
+      q22: "a",
+      q23: "b",
+      q24: "a",
+      q25: "a",
+      q26: "b",
+      q27: "a",
+      q28: "a"
+    };
+
+    const startBtn = document.getElementById("start-btn");
+    const finishBtn = document.getElementById("finish-btn");
+    const unansweredMsg = document.getElementById("unanswered-msg");
+    const resultOverlay = document.getElementById("result-overlay");
+    const scoreLine = document.getElementById("score-line");
+    const percentLine = document.getElementById("percent-line");
+    const incorrectLine = document.getElementById("incorrect-line");
+    const feedbackLine = document.getElementById("feedback-line");
+    const whatsappBtn = document.getElementById("whatsapp-btn");
+    const closeResult = document.getElementById("close-result");
+    const quizBody = document.getElementById("quiz-body");
+    const progressCard = document.getElementById("progress-card");
+    const startWarning = document.getElementById("start-warning");
+
+    const leaveOverlay = document.getElementById("leave-overlay");
+    const leaveYes = document.getElementById("leave-yes");
+    const leaveNo = document.getElementById("leave-no");
+
+    const firstInput = document.getElementById("student-first");
+    const fatherInput = document.getElementById("student-father");
+    const familyInput = document.getElementById("student-family");
+
+    let quizStarted = false;
+    let currentBlank = null;
+    let ignoreNextPop = false;
+
+    function normalizeWord(str) { return (str || "").trim().toLowerCase(); }
+
+    function isQuestionAnswered(num) {
+      const input = document.querySelector(`input[name="q${num}"]`);
+      return !!(input && input.value.trim().length > 0);
+    }
+
+    function updateProgress() {
+      for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+        const answered = isQuestionAnswered(i);
+        document.querySelectorAll(`.progress-dot[data-question="${i}"]`).forEach(dot => {
+          if (answered) dot.classList.add("answered");
+          else dot.classList.remove("answered");
+        });
+      }
+    }
+
+    function createProgressBars() {
+      const containers = document.querySelectorAll(".progress-dots");
+      containers.forEach(container => {
+        for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+          const dot = document.createElement("button");
+          dot.type = "button";
+          dot.className = "progress-dot";
+          dot.textContent = i;
+          dot.dataset.question = i;
+          dot.addEventListener("click", () => {
+            const input = document.querySelector(`input[name="q${i}"]`);
+            if (!input) return;
+            const card = input.closest(".question-card");
+            if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+          container.appendChild(dot);
+        }
+      });
+    }
+    createProgressBars();
+
+    function validateNames() {
+      const filled = firstInput.value.trim() && fatherInput.value.trim() && familyInput.value.trim();
+      if (filled) {
+        startBtn.disabled = false;
+        startWarning.textContent = "Now you can start the quiz 🎯";
+        startWarning.style.color = "#bbf7d0";
+      } else {
+        startBtn.disabled = true;
+        startWarning.textContent = "Type your full name to start the quiz 😊";
+        startWarning.style.color = "#fbbf24";
+      }
+    }
+    [firstInput, fatherInput, familyInput].forEach(inp => inp.addEventListener("input", validateNames));
+    document.addEventListener("DOMContentLoaded", validateNames);
+
+    startBtn.addEventListener("click", () => {
+      if (startBtn.disabled) return;
+      quizBody.classList.remove("hidden");
+      progressCard.classList.remove("hidden");
+      quizStarted = true;
+      const firstCard = document.querySelector(".question-card");
+      if (firstCard) firstCard.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    /* ✅ Fill-in: منع تكرار الكلمات داخل نفس Word box */
+    let fillBtnCounter = 0;
+    document.querySelectorAll(".fill-bank .word-btn").forEach(btn => {
+      fillBtnCounter += 1;
+      btn.dataset.btnId = "fb" + fillBtnCounter;
+    });
+
+    document.querySelectorAll(".blank-slot").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".blank-slot").forEach(b => b.classList.remove("active"));
+        currentBlank = btn;
+        btn.classList.add("active");
+      });
+    });
+
+    document.querySelectorAll(".fill-bank .word-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (!currentBlank) return;
+
+        const bankCard = btn.closest(".question-card");
+        const blankCard = currentBlank.closest(".question-card");
+        if (bankCard !== blankCard) return;
+
+        const qNum = currentBlank.dataset.question;
+        const word = btn.dataset.word || btn.textContent.trim();
+
+        // لو كان في كلمة قديمة داخل نفس الـblank، رجّع زرّها تاني
+        const prevId = currentBlank.dataset.fillBtnId;
+        if (prevId) {
+          const prevBtn = blankCard.querySelector(`.fill-bank .word-btn[data-btn-id="${prevId}"]`);
+          if (prevBtn) prevBtn.disabled = false;
+        }
+
+        currentBlank.textContent = word;
+        currentBlank.classList.add("filled");
+
+        const input = document.querySelector(`input[name="q${qNum}"]`);
+        if (input) input.value = word;
+
+        // منع تكرار الكلمة: disable الزر بعد الاستخدام
+        btn.disabled = true;
+        currentBlank.dataset.fillBtnId = btn.dataset.btnId;
+
+        updateProgress();
+      });
+    });
+
+    /* MCQ */
+    document.querySelectorAll(".mcq-options").forEach(group => {
+      const qId = group.dataset.question;
+      const hidden = document.querySelector(`input[name="q${qId}"]`);
+      const options = Array.from(group.querySelectorAll(".mcq-option"));
+      options.forEach(opt => {
+        opt.addEventListener("click", () => {
+          options.forEach(o => o.classList.remove("selected"));
+          opt.classList.add("selected");
+          if (hidden) hidden.value = opt.dataset.value || "";
+          updateProgress();
+        });
+      });
+    });
+
+    window.addEventListener("beforeunload", e => {
+      if (!quizStarted) return;
+      e.preventDefault();
+      e.returnValue = "Do you want to leave?";
+      return "Do you want to leave?";
+    });
+    history.pushState({ page: "quiz" }, "", window.location.href);
+    window.addEventListener("popstate", e => {
+      if (!quizStarted || ignoreNextPop) { ignoreNextPop = false; return; }
+      leaveOverlay.style.display = "flex";
+      history.pushState({ page: "quiz" }, "", window.location.href);
+    });
+    leaveYes.addEventListener("click", () => {
+      leaveOverlay.style.display = "none";
+      ignoreNextPop = true;
+      history.back();
+    });
+    leaveNo.addEventListener("click", () => { leaveOverlay.style.display = "none"; });
+
+    function getFirstName() {
+      const full = firstInput.value.trim();
+      if (!full) return "";
+      return full.split(/\s+/)[0];
+    }
+
+    function sendToSheet(data) {
+      try {
+        const formData = new FormData();
+        Object.entries(data).forEach(([k, v]) => formData.append(k, v));
+        fetch(SHEET_URL, { method: "POST", mode: "no-cors", body: formData }).catch(() => {});
+      } catch (e) {}
+    }
+
+    function showOnlyQuestions(questionNumbers) {
+      const set = new Set(questionNumbers);
+      document.querySelectorAll(".question-card").forEach(card => {
+        const inputs = card.querySelectorAll("input[name^='q']");
+        let keep = false;
+        inputs.forEach(inp => {
+          const num = parseInt(inp.name.replace("q", ""), 10);
+          if (set.has(num)) keep = true;
+        });
+        card.style.display = keep ? "" : "none";
+      });
+      if (questionNumbers.length > 0) {
+        const firstHidden = document.querySelector(`input[name="q${questionNumbers[0]}"]`);
+        if (firstHidden) {
+          const card = firstHidden.closest(".question-card");
+          if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    }
+
+    function showResult(score, total, wrongList) {
+      const percent = Math.round((score / total) * 100);
+      const firstName = getFirstName() || "student";
+
+      scoreLine.innerHTML = `<strong>Score:</strong> ${score} / ${total}`;
+      percentLine.innerHTML = `<strong>Percentage:</strong> ${percent}%`;
+      incorrectLine.innerHTML = wrongList.length
+        ? `<strong>Incorrect questions:</strong> ${wrongList.join(", ")}`
+        : "Incorrect questions: None 🎉";
+
+      let feedback = "";
+      if (percent === 100) feedback = `🌟 Excellent, ${firstName}!`;
+      else if (percent >= 75) feedback = `👍 Good job, ${firstName}!`;
+      else feedback = `💪 Keep practicing, ${firstName}!`;
+      feedbackLine.textContent = feedback;
+
+      const fullName = `${firstInput.value.trim()} ${fatherInput.value.trim()} ${familyInput.value.trim()}`.trim();
+      const whatsappText = `Hello, I'm ${fullName || "a student"}. My score is ${score}/${total} (${percent}%).`;
+
+      if (score === total) {
+        whatsappBtn.style.display = "inline-flex";
+        closeResult.style.display = "none";
+        whatsappBtn.onclick = () => window.open(`https://wa.me/201095295258?text=${encodeURIComponent(whatsappText)}`, "_blank");
+      } else {
+        whatsappBtn.style.display = "none";
+        closeResult.style.display = wrongList.length ? "inline-flex" : "none";
+        closeResult.onclick = () => { resultOverlay.classList.remove("show"); if (wrongList.length) showOnlyQuestions(wrongList); };
+      }
+
+      sendToSheet({
+        "Student Name": fullName || "Unknown",
+        name: fullName || "Unknown",
+        Score: String(score),
+        score: String(score),
+        Total: String(total),
+        total: String(total),
+        Percent: String(percent),
+        percent: String(percent),
+        "Wrong Answers": wrongList.join(", "),
+        wrong: wrongList.join(", ")
+      });
+
+      resultOverlay.classList.add("show");
+    }
+
+    resultOverlay.addEventListener("click", e => {
+      if (e.target === resultOverlay) resultOverlay.classList.remove("show");
+    });
+
+    finishBtn.addEventListener("click", () => {
+      document.querySelectorAll(".question-card").forEach(card => (card.style.display = ""));
+      unansweredMsg.style.display = "none";
+
+      let firstUnanswered = null;
+      for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+        if (!isQuestionAnswered(i)) { firstUnanswered = i; break; }
+      }
+      if (firstUnanswered !== null) {
+        unansweredMsg.style.display = "block";
+        const input = document.querySelector(`input[name="q${firstUnanswered}"]`);
+        if (input) {
+          const card = input.closest(".question-card");
+          if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        return;
+      }
+
+      let score = 0;
+      const wrong = [];
+
+      // Fill 1-8
+      for (let i = 1; i <= 8; i++) {
+        const input = document.querySelector(`input[name="q${i}"]`);
+        const user = normalizeWord(input.value);
+        const correct = normalizeWord(correctFill[`q${i}`] || "");
+        if (user === correct) score++; else wrong.push(i);
+      }
+
+      // MCQ 9-28
+      for (let i = 9; i <= TOTAL_QUESTIONS; i++) {
+        const input = document.querySelector(`input[name="q${i}"]`);
+        const user = normalizeWord(input.value);
+        const correct = normalizeWord(correctMCQ[`q${i}`] || "");
+        if (user === correct) score++; else wrong.push(i);
+      }
+
+      showResult(score, TOTAL_QUESTIONS, wrong);
+    });
+
+    document.addEventListener("scroll", () => {
+      const cards = Array.from(document.querySelectorAll(".question-card")).filter(c => c.style.display !== "none");
+      let currentQ = 1;
+      const mid = window.innerHeight / 2;
+      for (const card of cards) {
+        const rect = card.getBoundingClientRect();
+        if (rect.top < mid) {
+          const firstHidden = card.querySelector("input[name^='q']");
+          if (firstHidden) currentQ = parseInt(firstHidden.name.replace("q", ""), 10) || 1;
+        } else break;
+      }
+      document.querySelectorAll(".progress-dot").forEach(dot => {
+        if (Number(dot.dataset.question) === currentQ) dot.classList.add("current");
+        else dot.classList.remove("current");
+      });
+    });
+  </script>
+</body>
+</html>
